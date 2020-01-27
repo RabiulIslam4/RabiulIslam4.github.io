@@ -1,0 +1,47 @@
+
+---Downloaded files---
+The import files for: Business were successfully downloaded!
+Initial max execution time = 120
+Files info:
+Site URL = http://localhost/jisan
+Data file = C:\xampp\htdocs\jisan/wp-content/uploads/2020/01/demo-content-import-file_2020-01-26__16-11-42.xml
+Widget file = C:\xampp\htdocs\jisan/wp-content/uploads/2020/01/demo-widgets-import-file_2020-01-26__16-11-42.json
+Customizer file = C:\xampp\htdocs\jisan/wp-content/uploads/2020/01/demo-customizer-import-file_2020-01-26__16-11-42.dat
+Redux files:
+not defined!
+
+---Importing widgets---
+Sidebar : 
+
+Search - No Title - Imported
+Recent Posts - No Title - Imported
+Recent Comments - No Title - Imported
+Archives - No Title - Imported
+Categories - No Title - Imported
+Meta - No Title - Imported
+
+Footer 1 : 
+
+Image - No Title - Imported
+Custom HTML - No Title - Imported
+
+Footer 2 : 
+
+Navigation Menu - About Us - Widget already exists
+
+Footer 3 : 
+
+Navigation Menu - Services - Widget already exists
+
+Footer 4 : 
+
+Custom HTML - Contact Us - Widget already exists
+Airi: Social Profile - No Title - Imported
+
+
+
+---Importing customizer settings---
+Customizer settings import finished!
+
+---pt-ocdi/after_import---
+

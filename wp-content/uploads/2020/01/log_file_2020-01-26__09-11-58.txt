@@ -1,0 +1,77 @@
+
+---Downloaded files---
+The import files for: Intrinsic Dark Version were successfully downloaded!
+Initial max execution time = 120
+Files info:
+Site URL = http://localhost/jisan
+Data file = C:\xampp\htdocs\jisan/wp-content/uploads/2020/01/demo-content-import-file_2020-01-26__09-11-58.xml
+Widget file = C:\xampp\htdocs\jisan/wp-content/uploads/2020/01/demo-widgets-import-file_2020-01-26__09-11-58.json
+Customizer file = C:\xampp\htdocs\jisan/wp-content/uploads/2020/01/demo-customizer-import-file_2020-01-26__09-11-58.dat
+Redux files:
+not defined!
+
+------
+New AJAX call!
+[WARNING] Failed to import portfolio-category App
+[WARNING] Failed to import portfolio-category Branding
+[WARNING] Failed to import portfolio-category Design
+[WARNING] Failed to import portfolio-category UI/UX
+
+
+------
+New AJAX call!
+[WARNING] Failed to import portfolio-category App
+[WARNING] Failed to import portfolio-category Branding
+[WARNING] Failed to import portfolio-category Design
+[WARNING] Failed to import portfolio-category UI/UX
+
+
+------
+New AJAX call!
+[WARNING] Failed to import portfolio-category App
+[WARNING] Failed to import portfolio-category Branding
+[WARNING] Failed to import portfolio-category Design
+[WARNING] Failed to import portfolio-category UI/UX
+
+
+------
+New AJAX call!
+[WARNING] Failed to import portfolio-category App
+[WARNING] Failed to import portfolio-category Branding
+[WARNING] Failed to import portfolio-category Design
+[WARNING] Failed to import portfolio-category UI/UX
+
+
+------
+New AJAX call!
+[WARNING] Failed to import portfolio-category App
+[WARNING] Failed to import portfolio-category Branding
+[WARNING] Failed to import portfolio-category Design
+[WARNING] Failed to import portfolio-category UI/UX
+[WARNING] Failed to import "Abstract Design": Invalid post type portfolio
+[WARNING] Failed to import "Landing Portfolio Concept": Invalid post type portfolio
+[WARNING] Failed to import "Awesome Branding Concept": Invalid post type portfolio
+
+
+---Importing widgets---
+Sidebar Blog : 
+
+Image - Ads Widget - Imported
+Categories - Categories - Imported
+Gallery - Our Gallery - Imported
+Tag Cloud - Tag Cloud - Imported
+
+Sidebar Single : 
+
+Image - Ads Widgets - Imported
+Categories - Categories - Imported
+Gallery - Our Gallery - Imported
+Tag Cloud - Tag Cloud - Imported
+
+
+
+---Importing customizer settings---
+Customizer settings import finished!
+
+---pt-ocdi/after_import---
+

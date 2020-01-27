@@ -1,0 +1,656 @@
+<?php
+/**
+ * Map For Team Member Slider
+ *
+ * @package H-Code
+ */
+?>
+<?php
+/*-----------------------------------------------------------------------------------*/
+/* Team Member Slider */
+/*-----------------------------------------------------------------------------------*/
+
+vc_map( 
+  array(
+      'name' => __( 'Team Member Slider' , 'hcode-addons' ), //Name of your shortcode for human reading inside element list
+      'base' => 'hcode_team_slider', //Shortcode tag. For [my_shortcode] shortcode base is my_shortcode
+      'category' => 'H-Code',
+      'description' => __( 'Place a team members slider', 'hcode-addons' ), //Short description of your element, it will be visible in 'Add element' window
+      'class' => '', //CSS class which will be added to the shortcode's content element in the page edit screen in Visual Composer backend edit mode
+      'as_parent' => array('only' => 'hcode_team_slide_content'), // Use only|except attributes to limit child shortcodes (separate multiple values with comma)
+      'icon' => 'fas fa-arrows-alt-h h-code-shortcode-icon', //URL or CSS class with icon image.
+      'js_view' => 'VcColumnView',
+      'params' => array( //List of shortcode attributes. Array which holds your shortcode params, these params will be editable in shortcode settings page
+          array(
+              'type' => 'dropdown',
+              'heading' => __('Slider Style', 'hcode-addons'),
+              'param_name' => 'hcode_slider_premade_style',
+              'admin_label' => true,
+              'value' => array(__('Default Slider Style', 'hcode-addons') => 'default',
+                               __('Owl Carousel Slider Style', 'hcode-addons') => 'team-member-slider-1',
+                              ),
+              'default' => 'default',
+          ),
+          array(
+                'type' => 'hcode_custom_switch_option',
+                'class' => '',
+                'heading' => __('Show Pagination', 'hcode-addons'),
+                'param_name' => 'show_pagination',
+                'value' => array(__('OFF', 'hcode-addons') => '0', 
+                                 __('ON', 'hcode-addons') => '1'
+                                ),
+                'description' => __( 'Select ON to show pagination in slider', 'hcode-addons' ),
+                'dependency' => array( 'element' => 'hcode_slider_premade_style', 'value' => 'default' ),
+          ),
+          array(
+              'type' => 'dropdown',
+              'heading' => __('Pagination Style', 'hcode-addons'),
+              'param_name' => 'show_pagination_style',
+              'value' => array(__('Select Pagination Style', 'hcode-addons') => '',
+                               __('Dot Style', 'hcode-addons') => '0',
+                               __('Line Style', 'hcode-addons') => '1',
+                               __('Round Style', 'hcode-addons') => '2',
+                              ),
+              'dependency' => array( 'element' => 'show_pagination', 'value' => array('1') ),
+          ),
+          array(
+              'type' => 'dropdown',
+              'heading' => __('Pagination Color Style', 'hcode-addons'),
+              'param_name' => 'show_pagination_color_style',
+              'value' => array(__('Select Pagination Color Style', 'hcode-addons') => '',
+                               __('Dark Style', 'hcode-addons') => '0',
+                               __('Light Style', 'hcode-addons') => '1'
+                              ),
+              'dependency' => array( 'element' => 'show_pagination', 'value' => array('1') ),
+          ),
+          array(
+                'type' => 'hcode_custom_switch_option',
+                'class' => '',
+                'heading' => __('Show Navigation', 'hcode-addons'),
+                'param_name' => 'show_navigation',
+                'value' => array(__('OFF', 'hcode-addons') => '0', 
+                                 __('ON', 'hcode-addons') => '1'
+                                ),
+                'description' => __( 'Select ON to show navigation in slider', 'hcode-addons' ),
+                'dependency' => array( 'element' => 'hcode_slider_premade_style', 'value' => 'default' ),
+          ),
+          array(
+              'type' => 'dropdown',
+              'heading' => __('Navigation Style', 'hcode-addons'),
+              'param_name' => 'show_navigation_style',
+              'value' => array(__('Select Navigation Style', 'hcode-addons') => '',
+                               __('Next/Prev Black Arrow', 'hcode-addons') => '0',
+                               __('Next/Prev White Arrow', 'hcode-addons') => '1'
+                              ),
+              'dependency' => array( 'element' => 'show_navigation', 'value' => array('1') ),
+          ),
+          array(
+              'type' => 'dropdown',
+              'heading' => __('Cursor Color Style', 'hcode-addons'),
+              'param_name' => 'show_cursor_color_style',
+              'value' => array(__('Select Cursor Color Style', 'hcode-addons') => '',
+                               __('White Cursor', 'hcode-addons') => 'white-cursor',
+                               __('Black Cursor', 'hcode-addons') => 'black-cursor',
+                               __('Default Cursor', 'hcode-addons') => 'no-cursor',
+                              ),
+          ),
+          array(
+                'type' => 'textfield',
+                'heading' => __( 'No. of Items Per Slide (For Desktop Device)', 'hcode-addons' ),
+                'description' => __( 'Enter numeric value like 3', 'hcode-addons' ),
+                'param_name' => 'hcode_image_carousel_itemsdesktop',
+                'group'       => 'Slider Configuration',
+                'value'     => '3',
+                'dependency' => array( 'element' => 'hcode_slider_premade_style', 'value' => 'default' ),
+          ),
+          array(
+                'type' => 'textfield',
+                'heading' => __( 'No. of Items Per Slide (For Mini Desktop Device)', 'hcode-addons' ),
+                'description' => __( 'Enter numeric value like 3', 'hcode-addons' ),
+                'param_name' => 'hcode_image_carousel_itemsminidesktop',
+                'group'       => 'Slider Configuration',
+                'value'     => '3',
+                'dependency' => array( 'element' => 'hcode_slider_premade_style', 'value' => 'default' ),
+          ),
+          array(
+                'type' => 'textfield',
+                'heading' => __( 'No. of Items Per Slide (For iPad/Tablet Device)', 'hcode-addons' ),
+                'description' => __( 'Enter numeric value like 3', 'hcode-addons' ),
+                'param_name' => 'hcode_image_carousel_itemstablet',
+                'group'       => 'Slider Configuration',
+                'value'     => '2',
+                'dependency' => array( 'element' => 'hcode_slider_premade_style', 'value' => 'default' ),
+
+          ),
+          array(
+                'type' => 'textfield',
+                'heading' => __( 'No. of Items Per Slide (For Mobile Device)', 'hcode-addons' ),
+                'description' => __( 'Enter numeric value like 1', 'hcode-addons' ),
+                'param_name' => 'hcode_image_carousel_itemsmobile',
+                'group'       => 'Slider Configuration',
+                'value'     => '1',
+                'dependency' => array( 'element' => 'hcode_slider_premade_style', 'value' => 'default' ),
+          ),
+          array(
+                'type' => 'hcode_custom_switch_option',
+                'class' => '',
+                'heading' => __('Loop', 'hcode-addons'),
+                'param_name' => 'hcode_image_carousel_loop',
+                'value' => array(__('False', 'hcode-addons') => '0', 
+                                 __('True', 'hcode-addons') => '1'
+                                ),
+                'description' => __( 'Select TRUE to loop slider', 'hcode-addons' ),
+                'group'       => 'Slider Configuration',
+                'dependency' => array( 'element' => 'hcode_slider_premade_style', 'value' => 'default' ),
+          ),
+          array(
+                'type' => 'hcode_custom_switch_option',
+                'class' => '',
+                'heading' => __('Autoplay', 'hcode-addons'),
+                'param_name' => 'hcode_image_carousel_autoplay',
+                'value' => array(__('False', 'hcode-addons') => '0', 
+                                 __('True', 'hcode-addons') => '1'
+                                ),
+                'description' => __( 'Select TRUE to autoplay slider', 'hcode-addons' ),
+                'group'       => 'Slider Configuration',
+                'dependency' => array( 'element' => 'hcode_slider_premade_style', 'value' => 'default' ),
+          ),
+          array(
+                'type' => 'hcode_custom_switch_option',
+                'class' => '',
+                'heading' => __('Stop On Hover', 'hcode-addons'),
+                'param_name' => 'stoponhover',
+                'value' => array(__('False', 'hcode-addons') => '0', 
+                                 __('True', 'hcode-addons') => '1'
+                                ),
+                'description' => __( 'Select TRUE to stop autoplay when hover on slider', 'hcode-addons' ),
+                'dependency'  => array( 'element' => 'hcode_image_carousel_autoplay', 'value' => array('1') ),
+                'group' => 'Slider Configuration',
+          ), 
+          array(
+              'type' => 'dropdown',
+              'heading' => __('Slide Delay Time', 'hcode-addons'),
+              'param_name' => 'slidespeed',
+              'value' => array(__('Select Slide Delay Time', 'hcode-addons') => '',
+                               __('500', 'hcode-addons') => '500',
+                               __('600', 'hcode-addons') => '600',
+                               __('700', 'hcode-addons') => '700',
+                               __('800', 'hcode-addons') => '800',
+                               __('900', 'hcode-addons') => '900',
+                               __('1000', 'hcode-addons') => '1000',
+                               __('1100', 'hcode-addons') => '1100',
+                               __('1200', 'hcode-addons') => '1200',
+                               __('1300', 'hcode-addons') => '1300',
+                               __('1400', 'hcode-addons') => '1400',
+                               __('1500', 'hcode-addons') => '1500',
+                               __('2000', 'hcode-addons') => '2000',
+                               __('3000', 'hcode-addons') => '3000',
+                               __('4000', 'hcode-addons') => '4000',
+                               __('5000', 'hcode-addons') => '5000',
+                               __('6000', 'hcode-addons') => '6000',
+                               __('7000', 'hcode-addons') => '7000',
+                               __('8000', 'hcode-addons') => '8000',
+                               __('9000', 'hcode-addons') => '9000',
+                               __('10000', 'hcode-addons') => '10000',
+                               __('Custom', 'hcode-addons') => 'custom',
+                              ),
+              'std' => '3000',
+              'description' => __('Select slide delay time (1ms = 100)', 'hcode-addons'),
+              'dependency'  => array( 'element' => 'hcode_image_carousel_autoplay', 'value' => array('1') ),
+              'group' => 'Slider Configuration',
+          ),
+          array(
+             'type'        => 'textfield',
+             'heading'     => __('Custom Slide Delay Time', 'hcode-addons' ),
+             'description' => __('Add custom slide delay time to this slider. Like "2000"', 'hcode-addons' ),
+             'param_name'  => 'custom_slidespeed',
+             'dependency' => array( 'element' => 'slidespeed', 'value' => 'custom' ),
+             'group' => 'Slider Configuration',
+          ),
+          array(
+              'type' => 'dropdown',
+              'heading' => __('Slide Speed', 'hcode-addons'),
+              'param_name' => 'slidedelay',
+              'value' => array(__('Select Slide Speed', 'hcode-addons') => '',
+                               __('500', 'hcode-addons') => '500',
+                               __('600', 'hcode-addons') => '600',
+                               __('700', 'hcode-addons') => '700',
+                               __('800', 'hcode-addons') => '800',
+                               __('900', 'hcode-addons') => '900',
+                               __('1000', 'hcode-addons') => '1000',
+                               __('1100', 'hcode-addons') => '1100',
+                               __('1200', 'hcode-addons') => '1200',
+                               __('1300', 'hcode-addons') => '1300',
+                               __('1400', 'hcode-addons') => '1400',
+                               __('1500', 'hcode-addons') => '1500',
+                               __('2000', 'hcode-addons') => '2000',
+                               __('3000', 'hcode-addons') => '3000',
+                               __('4000', 'hcode-addons') => '4000',
+                               __('5000', 'hcode-addons') => '5000',
+                               __('6000', 'hcode-addons') => '6000',
+                               __('7000', 'hcode-addons') => '7000',
+                               __('8000', 'hcode-addons') => '8000',
+                               __('9000', 'hcode-addons') => '9000',
+                               __('10000', 'hcode-addons') => '10000',
+                               __('Custom', 'hcode-addons') => 'custom',
+                              ),
+              'std' => '700',
+              'description' => __('Select slide speed', 'hcode-addons'),
+              'dependency'  => array( 'element' => 'hcode_image_carousel_autoplay', 'value' => array('1') ),
+              'group' => 'Slider Configuration',
+          ),
+          array(
+             'type'        => 'textfield',
+             'heading'     => __('Custom Slide Speed', 'hcode-addons' ),
+             'description' => __('Add custom slide speed to this slider. Like "2000"', 'hcode-addons' ),
+             'param_name'  => 'custom_slidedelay',
+             'dependency' => array( 'element' => 'slidedelay', 'value' => 'custom' ),
+             'group' => 'Slider Configuration',
+          ),
+          array(
+             'type'        => 'textfield',
+             'heading'     => __('Slider ID', 'hcode-addons' ),
+             'description' => 'Optional - Define element id (The id attribute specifies a unique id for an HTML element)',
+             'param_name'  => 'hcode_slider_id',
+             'group'       => 'Slider ID & Class'
+          ),
+          array(
+             'type'        => 'textfield',
+             'heading'     => __('Slider Extra Class', 'hcode-addons' ),
+             'description' => 'Optional - add additional CSS class to this element, you can define multiple CSS class with use of space like "Class1 Class2"',
+             'param_name'  => 'hcode_slider_class',
+             'group'       => 'Slider ID & Class'
+          ),
+      ),
+  )
+);
+vc_map( 
+  array(
+      'name' => __('Add Team Member Slide', 'hcode-addons'),
+      'base' => 'hcode_team_slide_content',
+      'description' => __( 'Add Team Member Slide Data', 'hcode-addons' ),
+      'as_child' => array('only' => 'hcode_team_slider'), // Use only|except attributes to limit parent (separate multiple values with comma)
+      'icon' => 'fas fa-arrows-alt-h h-code-shortcode-icon', //URL or CSS class with icon image.
+      'params' => array(
+        array(
+          'type' => 'attach_image',
+          'admin_label' => true,
+          'heading' => __('Team Image', 'hcode-addons' ),
+          'param_name' => 'hcode_team_member_image',
+        ),
+        array(
+          'type' => 'textfield',
+          'admin_label' => true,
+          'heading' => __( 'Team Member Title', 'hcode-addons' ),
+          'param_name' => 'hcode_team_member_title',
+        ),
+        array(
+          'type' => 'textfield',
+          'admin_label' => true,
+          'heading' => __( 'Team Member Designation', 'hcode-addons' ),
+          'param_name' => 'hcode_team_member_designation',
+        ),
+        array(
+          'type' => 'textfield',
+          'heading' => __( 'Team Member Headline', 'hcode-addons' ),
+          'param_name' => 'hcode_team_member_headline',
+        ),
+        array(
+          'type' => 'hcode_custom_switch_option',
+          'class' => '',
+          'heading' => __('Show Separator', 'hcode-addons'),
+          'param_name' => 'hcode_team_member_separator',
+          'value' => array(__('NO', 'hcode-addons') => '0', 
+                           __('YES', 'hcode-addons') => '1'
+                          ),
+        ),
+        array(
+          'type' => 'textarea_html',
+          'heading' => __('Short Content', 'hcode-addons'),
+          'description' => __( 'Short Content.', 'hcode-addons' ),
+          'param_name' => 'content',
+        ),
+        array(
+            'type' => 'hcode_custom_switch_option',
+            'heading' => esc_html__( 'Link On Title', 'hcode-addons'),
+            'param_name' => 'title_enable_link',
+            'value' => array(
+               __('NO', 'hcode-addons') => '0', 
+               __('YES', 'hcode-addons') => '1'
+            ),
+            'std' => '0',
+        ),
+        array(
+            'type' => 'textfield',
+            'heading' =>esc_html__( 'Link / URL', 'hcode-addons'),
+            'param_name' => 'title_link_url',
+            'admin_label' => true,
+            'dependency'  => array( 'element' => 'title_enable_link', 'value' => '1' ),
+            'description' => esc_html__( 'Enter full URL with http, like http://www.example.com', 'hcode-addons' ),
+        ),
+        array(
+            'type' => 'dropdown',
+            'heading' => esc_html__( 'Link Target', 'hcode-addons'),
+            'param_name' => 'title_link_target',
+            'value' => array(
+                esc_html__('Self', 'hcode-addons') => '_self', 
+                esc_html__('New tab / window', 'hcode-addons') => '_blank',
+            ),
+            'dependency'  => array( 'element' => 'title_enable_link', 'value' => '1' ),
+        ),
+        array(
+            'type' => 'colorpicker',
+            'class' => '',
+            'heading' => __( 'Title Text Color', 'hcode-addons' ),
+            'param_name' => 'hcode_title_color',
+            'group' => 'Style',
+        ),
+        array(
+            'type' => 'colorpicker',
+            'class' => '',
+            'heading' => __( 'Designation Text Color', 'hcode-addons' ),
+            'param_name' => 'hcode_designation_color',
+            'group' => 'Style',
+        ),
+        array(
+            'type' => 'colorpicker',
+            'class' => '',
+            'heading' => __( 'Designation Box Background Color', 'hcode-addons' ),
+            'param_name' => 'hcode_team_designation_bg_color',
+            'group' => 'Style',
+        ),
+        array(
+            'type' => 'colorpicker',
+            'class' => '',
+            'heading' => __( 'Icon Color', 'hcode-addons' ),
+            'param_name' => 'hcode_team_icon_color',
+            'group' => 'Style',
+        ),
+        array(
+          'type' => 'hcode_custom_switch_option',
+          'class' => '',
+          'heading' => __('Show Facebook Icon', 'hcode-addons'),
+          'param_name' => 'hcode_team_member_fb',
+          'value' => array(__('NO', 'hcode-addons') => '0', 
+                           __('YES', 'hcode-addons') => '1'
+                          ),
+          'group'       => 'Social Icons',
+        ),
+        array(
+          'type' => 'textfield',
+          'heading' => __( 'Facebook URL', 'hcode-addons' ),
+          'param_name' => 'hcode_team_member_fb_url',
+          'dependency' => array( 'element' => 'hcode_team_member_fb', 'value' => array('1') ),
+          'group'       => 'Social Icons',
+        ),
+        array(
+          'type' => 'hcode_custom_switch_option',
+          'class' => '',
+          'heading' => __('Show Twitter Icon', 'hcode-addons'),
+          'param_name' => 'hcode_team_member_tw',
+          'value' => array(__('NO', 'hcode-addons') => '0', 
+                           __('YES', 'hcode-addons') => '1'
+                          ),
+          'group'       => 'Social Icons',
+        ),
+        array(
+          'type' => 'textfield',
+          'heading' => __( 'Twitter URL', 'hcode-addons' ),
+          'param_name' => 'hcode_team_member_tw_url',
+          'dependency' => array( 'element' => 'hcode_team_member_tw', 'value' => array('1') ),
+          'group'       => 'Social Icons',
+        ),
+        array(
+          'type' => 'hcode_custom_switch_option',
+          'class' => '',
+          'heading' => __('Show Google-plus Icon', 'hcode-addons'),
+          'param_name' => 'hcode_team_member_googleplus',
+          'value' => array(__('NO', 'hcode-addons') => '0', 
+                           __('YES', 'hcode-addons') => '1'
+                          ),
+          'group'       => 'Social Icons',
+        ),
+        array(
+          'type' => 'textfield',
+          'heading' => __( 'Google-plus URL', 'hcode-addons' ),
+          'param_name' => 'hcode_team_member_googleplus_url',
+          'dependency' => array( 'element' => 'hcode_team_member_googleplus', 'value' => array('1') ),
+          'group'       => 'Social Icons',
+        ),
+        array(
+          'type' => 'hcode_custom_switch_option',
+          'class' => '',
+          'heading' => __('Show Dribbble Icon', 'hcode-addons'),
+          'param_name' => 'hcode_team_member_db',
+          'value' => array(__('NO', 'hcode-addons') => '0', 
+                           __('YES', 'hcode-addons') => '1'
+                          ),
+          'group'       => 'Social Icons',
+        ),
+        array(
+          'type' => 'textfield',
+          'heading' => __( 'Dribbble URL', 'hcode-addons' ),
+          'param_name' => 'hcode_team_member_db_url',
+          'dependency' => array( 'element' => 'hcode_team_member_db', 'value' => array('1') ),
+          'group'       => 'Social Icons',
+        ),
+        array(
+          'type' => 'hcode_custom_switch_option',
+          'class' => '',
+          'heading' => __('Show Youtube Icon', 'hcode-addons'),
+          'param_name' => 'hcode_team_member_yt',
+          'value' => array(__('NO', 'hcode-addons') => '0', 
+                           __('YES', 'hcode-addons') => '1'
+                          ),
+          'group'       => 'Social Icons',
+        ),
+        array(
+          'type' => 'textfield',
+          'heading' => __( 'Youtube URL', 'hcode-addons' ),
+          'param_name' => 'hcode_team_member_yt_url',
+          'dependency' => array( 'element' => 'hcode_team_member_yt', 'value' => array('1') ),
+          'group'       => 'Social Icons',
+        ),
+        array(
+          'type' => 'hcode_custom_switch_option',
+          'class' => '',
+          'heading' => __('Show Linkedin Icon', 'hcode-addons'),
+          'param_name' => 'hcode_team_member_li',
+          'value' => array(__('NO', 'hcode-addons') => '0', 
+                           __('YES', 'hcode-addons') => '1'
+                          ),
+          'group'       => 'Social Icons',
+        ),
+        array(
+          'type' => 'textfield',
+          'heading' => __( 'Linkedin URL', 'hcode-addons' ),
+          'param_name' => 'hcode_team_member_li_url',
+          'dependency' => array( 'element' => 'hcode_team_member_li', 'value' => array('1') ),
+          'group'       => 'Social Icons',
+        ),
+        array(
+          'type' => 'hcode_custom_switch_option',
+          'class' => '',
+          'heading' => __('Show Instagram Icon', 'hcode-addons'),
+          'param_name' => 'hcode_team_member_ig',
+          'value' => array(__('NO', 'hcode-addons') => '0', 
+                           __('YES', 'hcode-addons') => '1'
+                          ),
+          'group'       => 'Social Icons',
+        ),
+        array(
+          'type' => 'textfield',
+          'heading' => __( 'Instagram URL', 'hcode-addons' ),
+          'param_name' => 'hcode_team_member_ig_url',
+          'dependency' => array( 'element' => 'hcode_team_member_ig', 'value' => array('1') ),
+          'group'       => 'Social Icons',
+        ),
+        array(
+          'type' => 'hcode_custom_switch_option',
+          'class' => '',
+          'heading' => __('Show Pinterest Icon', 'hcode-addons'),
+          'param_name' => 'hcode_team_member_pi',
+          'value' => array(__('NO', 'hcode-addons') => '0', 
+                           __('YES', 'hcode-addons') => '1'
+                          ),
+          'group'       => 'Social Icons',
+        ),
+        array(
+          'type' => 'textfield',
+          'heading' => __( 'Pinterest URL', 'hcode-addons' ),
+          'param_name' => 'hcode_team_member_pi_url',
+          'dependency' => array( 'element' => 'hcode_team_member_pi', 'value' => array('1') ),
+          'group'       => 'Social Icons',
+        ),
+        array(
+          'type' => 'hcode_custom_switch_option',
+          'class' => '',
+          'heading' => __('Show GitHub Icon', 'hcode-addons'),
+          'param_name' => 'hcode_team_member_gh',
+          'value' => array(__('NO', 'hcode-addons') => '0', 
+                           __('YES', 'hcode-addons') => '1'
+                          ),
+          'group'       => 'Social Icons',
+        ),
+        array(
+          'type' => 'textfield',
+          'heading' => __( 'GitHub URL', 'hcode-addons' ),
+          'param_name' => 'hcode_team_member_gh_url',
+          'dependency' => array( 'element' => 'hcode_team_member_gh', 'value' => array('1') ),
+          'group'       => 'Social Icons',
+        ),
+        array(
+          'type' => 'hcode_custom_switch_option',
+          'class' => '',
+          'heading' => __('Show Xing Icon', 'hcode-addons'),
+          'param_name' => 'hcode_team_member_xing',
+          'value' => array(__('NO', 'hcode-addons') => '0', 
+                           __('YES', 'hcode-addons') => '1'
+                          ),
+          'group'       => 'Social Icons',
+        ),
+        array(
+          'type' => 'textfield',
+          'heading' => __( 'Xing URL', 'hcode-addons' ),
+          'param_name' => 'hcode_team_member_xing_url',
+          'dependency' => array( 'element' => 'hcode_team_member_xing', 'value' => array('1') ),
+          'group'       => 'Social Icons',
+        ),
+        array(
+          'type' => 'hcode_custom_switch_option',
+          'class' => '',
+          'heading' => __('Show VK Icon', 'hcode-addons'),
+          'param_name' => 'hcode_team_member_vk',
+          'value' => array(__('NO', 'hcode-addons') => '0', 
+                           __('YES', 'hcode-addons') => '1'
+                          ),
+          'group'       => 'Social Icons',
+        ),
+        array(
+          'type' => 'textfield',
+          'heading' => __( 'VK URL', 'hcode-addons' ),
+          'param_name' => 'hcode_team_member_vk_url',
+          'dependency' => array( 'element' => 'hcode_team_member_vk', 'value' => array('1') ),
+          'group'       => 'Social Icons',
+        ),
+        array(
+          'type' => 'hcode_custom_switch_option',
+          'class' => '',
+          'heading' => __('Show Website Icon', 'hcode-addons'),
+          'param_name' => 'hcode_team_member_ws',
+          'value' => array(__('NO', 'hcode-addons') => '0', 
+                           __('YES', 'hcode-addons') => '1'
+                          ),
+          'group'       => 'Social Icons',
+        ),
+        array(
+          'type' => 'textfield',
+          'heading' => __( 'Website URL', 'hcode-addons' ),
+          'param_name' => 'hcode_team_member_ws_url',
+          'dependency' => array( 'element' => 'hcode_team_member_ws', 'value' => array('1') ),
+          'group'       => 'Social Icons',
+        ),
+        array(
+          'type' => 'hcode_custom_switch_option',
+          'class' => '',
+          'heading' => __('Show Email Icon', 'hcode-addons'),
+          'param_name' => 'hcode_team_member_email',
+          'value' => array(__('NO', 'hcode-addons') => '0', 
+                           __('YES', 'hcode-addons') => '1'
+                          ),
+          'group'       => 'Social Icons',
+        ),
+        array(
+          'type' => 'textfield',
+          'heading' => __( 'Email Address', 'hcode-addons' ),
+          'param_name' => 'hcode_team_member_email_url',
+          'dependency' => array( 'element' => 'hcode_team_member_email', 'value' => array('1') ),
+          'group'       => 'Social Icons',
+        ),
+        array(
+          'type' => 'textarea_raw_html',
+          'heading' => __( 'Custom Icon & Link Code', 'hcode-addons' ),
+          'param_name' => 'hcode_team_member_custom_link',
+          'group'       => 'Social Icons',
+        ),
+        array(
+          'type' => 'responsive_font_settings',
+          'param_name' => 'hcode_team_member_title_font_settings',
+          'heading' => esc_html__( 'Font Settings For Team Member Title', 'hcode-addons' ),
+          'group' => 'Font Settings',
+        ),
+        array(
+          'type' => 'responsive_font_settings',
+          'param_name' => 'hcode_team_member_designation_font_settings',
+          'heading' => esc_html__( 'Font Settings For Team Member Designation', 'hcode-addons' ),
+          'group' => 'Font Settings',
+        ),
+        array(
+          'type' => 'responsive_font_settings',
+          'param_name' => 'hcode_team_member_headline_font_settings',
+          'heading' => esc_html__( 'Font Settings For Team Member Headline', 'hcode-addons' ),
+          'group' => 'Font Settings',
+        ),
+        array(
+          'type' => 'responsive_font_settings',
+          'param_name' => 'hcode_team_member_social_icon_font_settings',
+          'heading' => esc_html__( 'Font Settings For Social Icons', 'hcode-addons' ),
+          'hide_font_settings_element_lg' => array('text-align','font-transform'),
+          'hide_font_settings_element_md' => array('text-align','font-transform'),
+          'hide_font_settings_element_sm' => array('text-align','font-transform'),
+          'hide_font_settings_element_xs' => array('text-align','font-transform'),
+          'group' => 'Font Settings',
+        ),
+        array(
+          'type' => 'hcode_animation_style',
+          'param_name' => 'hcode_column_animation_style',
+          'heading' => __('Animation Style', 'hcode-addons' ),
+          'value' => '',
+          'group' => 'Animation',
+        ),
+        array(
+          'type' => 'textfield',
+          'heading' => __('Animation Duration', 'hcode-addons' ),
+          'param_name' => 'hcode_column_animation_duration',
+          'dependency' => array( 'element' => 'hcode_column_animation_style', 'not_empty' => true ),
+          'description' => __( 'Add duration like 300ms', 'hcode-addons' ),
+          'group' => 'Animation',
+        ),
+        array(
+          'type' => 'hcode_custom_srcset',
+          'param_name' => 'hcode_image_srcset',
+          'heading' => __('Image SRCSET', 'hcode-addons' ),
+          'value' => 'full',
+          'group' => 'SRCSET',
+        ),
+        $hcode_vc_extra_id,
+        $hcode_vc_extra_class,
+        ),
+    ) 
+);
+if(class_exists('WPBakeryShortCodesContainer')){ 
+  class WPBakeryShortCode_hcode_team_slider extends WPBakeryShortCodesContainer { }
+}
+if(class_exists('WPBakeryShortCode')){
+  class WPBakeryShortCode_hcode_team_slide_content extends WPBakeryShortCode { }
+}

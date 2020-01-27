@@ -1,0 +1,19 @@
+
+---Downloaded files---
+The import files for: Demo Import were successfully downloaded!
+Initial max execution time = 120
+Files info:
+Site URL = http://localhost/jisan
+Data file = C:\xampp\htdocs\jisan/wp-content/themes/maiden//inc/demo/content.xml
+Widget file = C:\xampp\htdocs\jisan/wp-content/themes/maiden//inc/demo/widgets.wie
+Customizer file = C:\xampp\htdocs\jisan/wp-content/themes/maiden//inc/demo/customizer.dat
+Redux files:
+not defined!
+
+------
+New AJAX call!
+
+
+------
+New AJAX call!
+
